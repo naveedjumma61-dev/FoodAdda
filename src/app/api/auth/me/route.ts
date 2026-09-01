@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { getSessionUser } from '@/lib/auth';
 import { errorResponse, jsonResponse, handleApiError } from '@/lib/validation';
 
+// This route uses request.cookies for session validation - must be dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const session = await getSessionUser(req);

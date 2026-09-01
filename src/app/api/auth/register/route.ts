@@ -4,6 +4,9 @@ import { hashPassword, signToken, AUTH_COOKIE_NAME } from '@/lib/auth';
 import { errorResponse, jsonResponse, handleApiError } from '@/lib/validation';
 import { Role } from '@prisma/client';
 
+// This route sets response cookies - must be dynamic
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

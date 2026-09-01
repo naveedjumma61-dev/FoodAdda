@@ -1,4 +1,4 @@
-// File: c:\Users\hp\OneDrive\Desktop\FoodAdda\src\app\api\restaurants\[id]\route.ts
+// File: C:\Users\hp\OneDrive\Desktop\FoodAdda\src\app\api\restaurants\[id]\route.ts
 import * as entry from '../../../../../../src/app/api/restaurants/[id]/route.js'
 import type { NextRequest } from 'next/server.js'
 

@@ -12,6 +12,14 @@ const nextConfig = {
       },
     ],
   },
+  // Vercel optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
+  // Ensure env variables are properly handled during build
+  env: {
+    // These will be overridden by Vercel environment variables
+  },
 };
 
 export default nextConfig;

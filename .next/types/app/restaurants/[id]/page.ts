@@ -1,4 +1,4 @@
-// File: c:\Users\hp\OneDrive\Desktop\FoodAdda\src\app\restaurants\[id]\page.tsx
+// File: C:\Users\hp\OneDrive\Desktop\FoodAdda\src\app\restaurants\[id]\page.tsx
 import * as entry from '../../../../../src/app/restaurants/[id]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
