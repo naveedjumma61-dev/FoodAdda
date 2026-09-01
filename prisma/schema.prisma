@@ -1,0 +1,199 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CUSTOMER
+  RIDER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  RIDER_ASSIGNED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  phone        String
+  passwordHash String
+  role         Role           @default(CUSTOMER)
+  campus       String?
+  hostel       String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  addresses    UserAddress[]
+  orders       Order[]
+  riderProfile Rider?
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id           String      @id @default(uuid())
+  name         String
+  description  String
+  logoImage    String
+  coverImage   String
+  category     String
+  phone        String
+  address      String
+  location     String
+  openingHours String
+  deliveryFee  Float       @default(40)
+  minimumOrder Float       @default(250)
+  active       Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  menuItems    MenuItem[]
+  orders       Order[]
+
+  @@map("restaurants")
+}
+
+model MenuItem {
+  id           String      @id @default(uuid())
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  name         String
+  description  String
+  image        String
+  category     String
+  price        Float
+  available    Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+
+  orderItems   OrderItem[]
+
+  @@map("menu_items")
+}
+
+model Hostel {
+  id             String        @id @default(uuid())
+  name           String
+  address        String
+  location       String
+  campus         String
+  deliveryCharge Float         @default(70)
+  createdAt      DateTime      @default(now())
+
+  userAddresses  UserAddress[]
+
+  @@map("hostels")
+}
+
+model UserAddress {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hostelId     String?
+  hostel       Hostel?   @relation(fields: [hostelId], references: [id], onDelete: SetNull)
+  building     String
+  room         String
+  instructions String?
+  isDefault    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+
+  @@map("user_addresses")
+}
+
+model Order {
+  id              String         @id @default(uuid())
+  orderNumber     String         @unique
+  customerId      String
+  customer        User           @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  restaurantId    String
+  restaurant      Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Restrict)
+  riderId         String?
+  rider           Rider?         @relation(fields: [riderId], references: [id], onDelete: SetNull)
+  status          OrderStatus    @default(PENDING)
+  subtotal        Float
+  deliveryFee     Float
+  discount        Float          @default(0)
+  total           Float
+  deliveryAddress String
+  customerPhone   String?
+  instructions    String?
+  paymentMethod   String         @default("COD")
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  orderItems      OrderItem[]
+  notifications   Notification[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Restrict)
+  quantity   Int      @default(1)
+  price      Float
+
+  @@map("order_items")
+}
+
+model Rider {
+  id             String    @id @default(uuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone          String
+  vehicleType    String
+  plateNumber    String?
+  active         Boolean   @default(true)
+  available      Boolean   @default(true)
+  currentOrderId String?
+  createdAt      DateTime  @default(now())
+
+  assignedOrders Order[]
+
+  @@map("riders")
+}
+
+model Setting {
+  id                 String   @id @default(uuid())
+  platformName       String   @default("HostelAdda")
+  currency           String   @default("PKR")
+  campusDeliveryFee  Float    @default(89)
+  hostelDeliveryFee  Float    @default(70)
+  campusMinimumOrder Float    @default(500)
+  hostelMinimumOrder Float    @default(300)
+  contactPhone       String   @default("+92 301 555-ADDA")
+  contactEmail       String   @default("support@hosteladda.com")
+  updatedAt          DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
