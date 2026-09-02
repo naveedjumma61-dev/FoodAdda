@@ -4,6 +4,9 @@ import { requireRole } from '@/lib/auth';
 import { errorResponse, jsonResponse, handleApiError } from '@/lib/validation';
 import { RESTAURANTS_DATA } from '@/data/mockData';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
