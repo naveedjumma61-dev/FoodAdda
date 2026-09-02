@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { requireRole } from '@/lib/auth';
 import { errorResponse, jsonResponse, handleApiError } from '@/lib/validation';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }

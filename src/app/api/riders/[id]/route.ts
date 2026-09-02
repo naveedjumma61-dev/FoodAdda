@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { requireRole } from '@/lib/auth';
 import { jsonResponse, handleApiError, errorResponse } from '@/lib/validation';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
