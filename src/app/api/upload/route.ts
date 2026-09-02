@@ -2,6 +2,9 @@ import { NextRequest } from 'next/server';
 import { uploadImage } from '@/lib/storage';
 import { jsonResponse, handleApiError, errorResponse } from '@/lib/validation';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get('content-type') || '';
