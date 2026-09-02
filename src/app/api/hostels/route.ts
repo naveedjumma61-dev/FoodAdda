@@ -4,6 +4,9 @@ import { requireRole } from '@/lib/auth';
 import { jsonResponse, handleApiError, errorResponse } from '@/lib/validation';
 import { CAMPUS_LOCATIONS } from '@/data/mockData';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function GET() {
   try {
     let hostels: any[] = [];
