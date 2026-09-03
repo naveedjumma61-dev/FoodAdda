@@ -5,8 +5,8 @@ import { errorResponse, jsonResponse, handleApiError } from '@/lib/validation';
 import { OrderStatus } from '@prisma/client';
 import { MOCK_ORDERS_DATA } from '@/data/mockData';
 
-// This route uses getSessionUser which reads request.cookies - must be dynamic
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET(
   req: NextRequest,

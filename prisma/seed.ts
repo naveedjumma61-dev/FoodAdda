@@ -211,6 +211,7 @@ async function main() {
   // 6. Create 5 Restaurants
   const restaurantsSeed = [
     {
+      id: 'campus-cafe-shawarma',
       name: 'Campus Cafe & Shawarma Hub',
       description: 'Loaded Arabic Shawarmas, Zinger burgers & Platters',
       category: 'Fast Food',
@@ -225,6 +226,7 @@ async function main() {
       active: true,
     },
     {
+      id: 'hostel-city-biryani',
       name: 'Hostel City Biryani & Pulao',
       description: 'Authentic Karachi spiced student Biryani & Kabab',
       category: 'Biryani',
@@ -239,6 +241,7 @@ async function main() {
       active: true,
     },
     {
+      id: 'burger-point',
       name: 'Burger Point & Fries Box',
       description: 'Juicy smashed beef & crunchy buttermilk zinger burgers',
       category: 'Burger',
@@ -253,6 +256,7 @@ async function main() {
       active: true,
     },
     {
+      id: 'pizza-corner',
       name: 'Pizza Corner & Stone Oven',
       description: 'Cheesy crust pizzas with generous desi toppings',
       category: 'Pizza',
@@ -267,6 +271,7 @@ async function main() {
       active: true,
     },
     {
+      id: 'juice-hub',
       name: 'Juice Hub & Shake Factory',
       description: '100% Fresh seasonal fruit juices and thick dairy shakes',
       category: 'Juice',

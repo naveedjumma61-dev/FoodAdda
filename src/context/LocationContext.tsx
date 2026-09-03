@@ -20,10 +20,23 @@ interface LocationContextType {
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
+  const [allCampuses, setAllCampuses] = useState<CampusLocation[]>(CAMPUS_LOCATIONS);
   const [selectedCampus, setSelectedCampus] = useState<CampusLocation>(CAMPUS_LOCATIONS[0]);
   const [selectedHostel, setSelectedHostel] = useState<string>(CAMPUS_LOCATIONS[0].hostels[0]);
   const [roomNumber, setRoomNumber] = useState<string>('Room 204');
   const [isLocationModalOpen, setIsLocationModalOpen] = useState<boolean>(false);
+
+  // Fetch hostels & campuses from API
+  useEffect(() => {
+    fetch('/api/hostels')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.campuses) && data.campuses.length > 0) {
+          setAllCampuses(data.campuses);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Load from local storage on mount
   useEffect(() => {
@@ -33,7 +46,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       const savedRoom = localStorage.getItem('hosteladda_room');
 
       if (savedCampusId) {
-        const found = CAMPUS_LOCATIONS.find((c) => c.id === savedCampusId);
+        const found = allCampuses.find((c) => c.id === savedCampusId);
         if (found) setSelectedCampus(found);
       }
       if (savedHostel) setSelectedHostel(savedHostel);
@@ -41,7 +54,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
     } catch (e) {
       console.warn('LocalStorage not available', e);
     }
-  }, []);
+  }, [allCampuses]);
 
   const setCampus = (campus: CampusLocation) => {
     setSelectedCampus(campus);
@@ -84,7 +97,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
         setCampus,
         setHostel,
         setRoomNumber: handleSetRoomNumber,
-        allCampuses: CAMPUS_LOCATIONS,
+        allCampuses,
       }}
     >
       {children}

@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AUTH_COOKIE_NAME } from '@/lib/auth';
 import { jsonResponse } from '@/lib/validation';
 
-// This route sets response cookies - must be dynamic
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function POST() {
   const response = jsonResponse({

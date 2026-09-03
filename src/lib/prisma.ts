@@ -4,13 +4,24 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+// Safe datasource URL fallback prevents build-time crashes when DATABASE_URL is not set on Vercel
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  'postgresql://postgres:postgres@localhost:5432/hosteladda?schema=public';
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
+    datasources: {
+      db: {
+        url: databaseUrl,
+      },
+    },
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   });
 
-// Reuse connection in both development and production (important for serverless)
-globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
 
 export default prisma;
