@@ -1,1 +1,0 @@
-{"version":1,"functions":{"/api/auth/me":{},"/api/auth/logout":{},"/api/hostels":{},"/api/menu-items/[id]":{},"/api/auth/login":{},"/api/menu-items":{},"/api/auth/register":{},"/api/health":{},"/api/orders/[id]":{},"/api/riders":{},"/api/riders/[id]":{},"/api/upload":{},"/api/settings":{},"/api/users/me":{},"/api/orders":{},"/api/restaurants":{},"/api/restaurants/[id]":{}}}

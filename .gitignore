@@ -1,1 +1,28 @@
-node_modules
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js build output
+/.next/
+/out/
+/.dist/
+
+# production
+/build
+
+# environment files (override on Vercel Dashboard)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript build info
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
